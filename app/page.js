@@ -1,113 +1,162 @@
+'use client'
+import Link from "next/link";
+import { useRef, useState } from "react";
+import ImageShowCase from "./components/ImageShowCase";
+import Footer from "./components/Footer";
 import Image from "next/image";
+import img from '../public/kartik.jpg'
+import img2 from '../public/kartik2.jpeg'
+import { useScroll, useTransform } from "framer-motion";
+import { Container } from "postcss";
+import { motion } from "framer-motion";
+
+import p1 from '../public/taskmaster/1.png'
+import p2 from '../public/taskmaster/2.png'
+import p3 from '../public/taskmaster/3.png'
+import p4 from '../public/taskmaster/4.png'
+import p5 from '../public/taskmaster/5.png'
+import p6 from '../public/taskmaster/6.png'
+
+import b1 from '../public/blogpolisher/1.png'
+import b2 from '../public/blogpolisher/2.png'
+import b3 from '../public/blogpolisher/3.png'
+import b4 from '../public/blogpolisher/4.png'
+import b5 from '../public/blogpolisher/5.png'
 
 export default function Home() {
+
+  const Phrase = ({src, text}) => {
+    return(
+      <div className="flex gap-5 items-center md:h-[18vh] h-[120px]">
+        <p className="md:text-[9vh] text-4xl tracking-tight mx-2">{text}</p>
+        <span className="relative md:h-[10vw] h-[100px] aspect-[3/2] rounded-full overflow-hidden">
+          <Image style={{objectFit: 'cover'}} src={src} alt="image" fill/>
+        </span>
+      </div>
+    )
+  }
+
+  const Slider = ({src, left, text, progress, direction}) => {
+
+    const dir = direction == "left" ? -1 : 1;
+    const x = useTransform(progress, [0, 1], [-450 * dir,450 * dir])
+
+    return (
+      <motion.div className="relative flex whitespace-nowrap" style={{left, x}}>
+        <Phrase src={src} text={text}/>
+        <Phrase src={src} text={text}/>
+        <Phrase src={src} text={text}/>
+        <Phrase src={src} text={text}/>
+      </motion.div>
+    )
+  }
+
+  const container = useRef()
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start end', 'end start']
+  })
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="flex flex-col"> 
+    <nav className="h-[8vh] flex items-center justify-end px-8">
+      <Link href="/about" className="text-xl hover:text-red-500 hover:underline underline-offset-2 transition-all">Info</Link>
+    </nav>
+
+      {/* <section className="w-full max-w-[1100px] mx-auto flex flex-col items-start justify-center h-[70vh]">
+        <h1 className="text-[60px] tracking-tight leading-[120%] text-black">kartik mistry,</h1>
+        <h1 className="text-[60px] tracking-tight leading-[120%] text-black">crafting softwares & interfaces</h1>
+        <Link href="/about" className="text-2xl text-red-500 underline underline-offset-8 decoration-[1px] mt-2">about me & things I do</Link>
+        <h1 className="text-[60px] tracking-tight flex text-center">Frontend {" "}
+
+        <span className="bg-[rgb(243,243,243)] w-[138px] h-[96px] flex items-center justify-center rounded-full mx-2 scale-[0.9] hover:scale-[0.8]">?!?</span>
+        
+         Developer</h1>
+      </section> */}
+
+      <main className="overflow-hidden">
+        <div className="h-[76vh]"/>
+        <div ref={container}>
+          <Slider src={img} left="-110%" text="Kartik Mistry" progress={scrollYProgress} direction="left"/>
+          <Slider src={img2} left="-35%" text="Frontend Developer" progress={scrollYProgress} direction="right"/>
+          <Slider src={img} left="-10%" text="Crafting softwares & interfaces" progress={scrollYProgress} direction="left"/>
         </div>
-      </div>
+        <div className="h-[30vh]"/>
+      </main>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      {/* <section className="w-full max-w-[1100px] mx-auto p-4 my-10">
+        <span className="flex flex-col gap-4 my-10">
+          <p className="md:text-2xl text-lg">2023-2024 / Side Projects</p>
+          <h1 className="md:text-5xl text-2xl font-medium tracking-tight leading-[180%] text-gray-800">Interactive prototypes using ReactJS, SwiftUI, CSS/HTML</h1>
+        </span>
+        <div className="w-full h-full bg-black p-[10%] gap-20 rounded-3xl grid md:grid-cols-2">
+          <video loop autoPlay muted
+          src="https://videos.pexels.com/video-files/15921892/15921892-sd_640_360_25fps.mp4"
+          className="w-[380px] h-[380px] rounded-2xl object-cover"/>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+          <video loop autoPlay muted
+          src="https://videos.pexels.com/video-files/15921892/15921892-sd_640_360_25fps.mp4"
+          className="w-[350px] h-[420px] rounded-2xl object-cover"/>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+          <video loop autoPlay muted
+          src="https://videos.pexels.com/video-files/15921892/15921892-sd_640_360_25fps.mp4"
+          className="w-[350px] h-[420px] rounded-2xl object-cover"/>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+          <video loop autoPlay muted
+          src="https://videos.pexels.com/video-files/15921892/15921892-sd_640_360_25fps.mp4"
+          className="w-[380px] h-[380px] rounded-2xl object-cover"/>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+          <video loop autoPlay muted
+          src="https://videos.pexels.com/video-files/15921892/15921892-sd_640_360_25fps.mp4"
+          className="w-[380px] h-[380px] rounded-2xl object-cover"/>
+
+          <video loop autoPlay muted
+          src="https://videos.pexels.com/video-files/15921892/15921892-sd_640_360_25fps.mp4"
+          className="w-[350px] h-[420px] rounded-2xl object-cover"/>
+        </div> 
+
+      </section> */}
+
+      <section className="max-w-[1400px] w-full mx-auto mt-10 flex md:flex-row flex-col justify-between items-start">
+        <div className="flex flex-row justify-between items-start p-4 sticky top-0 bg-[#ffffffda] backdrop-blur-sm">
+          <span className="flex flex-col gap-4 py-8">
+            <p className="xl:text-[21px] text-lg">2023</p>
+            <h1 className="xl:text-2xl font-medium">TaskMaster</h1>
+            <h1 className="xl:text-[18px] text-md text-gray-600">TaskMaster is a cutting-edge task management application designed to streamline your workflow and enhance productivity.</h1>
+            <a href="#" className="bg-[#f4f4f4] h-fit w-fit px-3 py-2 rounded-3xl xl:text-[16px] text-sm hover:scale-[0.9] transition-all">Website</a>
+          </span>
+
+        </div>
+        <div className="flex flex-col mt-6 gap-4 max-w-[700px]">
+          <ImageShowCase link={p1}/>
+          <ImageShowCase link={p2}/>
+          <ImageShowCase link={p3}/>
+          <ImageShowCase link={p4}/>
+          <ImageShowCase link={p5}/>
+          <ImageShowCase link={p6}/>
+        </div>
+      </section>
+
+      <section className="max-w-[1400px] w-full mx-auto mt-10 flex md:flex-row flex-col justify-between items-start">
+        <div className="flex flex-row justify-between items-start p-4 sticky top-0 bg-[#ffffffda] backdrop-blur-sm">
+          <span className="flex flex-col gap-4 py-8">
+            <p className="xl:text-[21px] text-lg">2024</p>
+            <h1 className="xl:text-2xl font-medium">Blog Polisher</h1>
+            <h1 className="xl:text-[18px] text-md text-gray-600">Blog Polisher is an AI blog enhancement application where user can polish the content according to their requirements.</h1>
+            <a href="#" className="bg-[#f4f4f4] h-fit w-fit px-4 py-2.5 rounded-3xl xl:text-[21px] text-sm hover:scale-[0.9] transition-all">Website</a>
+          </span>
+
+        </div>
+        <div className="flex flex-col mt-6 gap-4 max-w-[700px]">
+          <ImageShowCase link={b1}/>
+          <ImageShowCase link={b2}/>
+          <ImageShowCase link={b3}/>
+          <ImageShowCase link={b4}/>
+          <ImageShowCase link={b5}/>
+        </div>
+
+      </section>
+
+      <Footer/>
+    </div>
   );
 }
